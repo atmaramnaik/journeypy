@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+.tox/
+journey.egg-info/
+.pytest_cache/
+__pycache__/
