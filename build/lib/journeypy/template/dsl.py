@@ -1,5 +1,6 @@
 from journeypy.template.text.Templates import *
-from journeypy.template.Expressions import *
+
+
 def text(*argv):
     textObj=Text()
     textObj.blocks=argv

@@ -1,16 +1,11 @@
 from setuptools import setup, find_packages
-import pathlib
 PACKAGE_NAME = 'journeypy'
-HERE = pathlib.Path(__file__).parent
-
-# The text of the README file
-README = (HERE / "README.md").read_text()
 
 setup(
     name=PACKAGE_NAME,
-    version="0.0.1",
+    version="0.0.2",
     description="This Are workflow Journey library",
-    long_description=README,
+    long_description="# journey-py",
     long_description_content_type="text/markdown",
     url="https://github.com/atmaramnaik/journeypy.git",
     author="Atmaram Naik",
