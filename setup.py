@@ -3,7 +3,7 @@ PACKAGE_NAME = 'journeypy'
 
 setup(
     name=PACKAGE_NAME,
-    version="0.0.2",
+    version="0.0.3",
     description="This Are workflow Journey library",
     long_description="# journey-py",
     long_description_content_type="text/markdown",
