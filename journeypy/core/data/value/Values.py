@@ -1,4 +1,4 @@
-from collections import OrderedDict
+import json
 class Serializable(object):
     def de_serialize(self,str):
         pass
@@ -7,17 +7,53 @@ class Serializable(object):
         pass
 
 
-class ValueHolder(Serializable):
-    type=None
-    value=None
+class ValueHolderEntry(object):
+    def __init__(self, t, vh):
+        self.t = t
+        self.vh = vh
 
-    __valueHolderMap = OrderedDict()
+    def __eq__(self, other):
+        if self.t == other.t:
+            return True
+        elif issubclass(self.t, other.t) or issubclass(other.t,self.t):
+            return False
+        else:
+            return True
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __lt__(self, other):
+        if issubclass(self.t,other.t):
+            return True
+        return False
+
+    def __le__(self, other):
+        if self < other or self == other:
+            return True
+        return False
+
+    def __gt__(self, other):
+        if issubclass(other.t,self.t):
+            return True
+        return False
+
+    def __ge__(self, other):
+        if self > other or self == other:
+            return True
+        return False
+
+
+class ValueHolder(Serializable):
+    type = None
+    value = None
+    __valueHolderList = []
 
     def __str__(self):
         return self.serialize()
 
     def __add__(self, other):
-        if isinstance(other,str):
+        if isinstance(other, str):
             return str(self) + other
         else:
             return str(self) + str(other)
@@ -31,9 +67,9 @@ class ValueHolder(Serializable):
 
     @staticmethod
     def get_appropriate_value_holder(typeProvided):
-        for typeInRegistry,valueHolderType in ValueHolder.__valueHolderMap.items():
-            if issubclass(typeProvided,typeInRegistry):
-                return valueHolderType
+        for vhe in ValueHolder.__valueHolderList:
+            if issubclass(typeProvided,vhe.t):
+                return vhe.vh
 
     @staticmethod
     def get_new_value_holder_for(data):
@@ -44,7 +80,8 @@ class ValueHolder(Serializable):
     @classmethod
     def register(cls,type):
         def real_decorator(scls):
-            ValueHolder.__valueHolderMap[type] = scls
+            ValueHolder.__valueHolderList.append(ValueHolderEntry(type, scls))
+            ValueHolder.__valueHolderList.sort()
             return scls
 
         return real_decorator
@@ -55,7 +92,7 @@ class IntegerHolder(ValueHolder):
     def __init__(self):
         self.value=None
 
-    def de_serialize(self,str):
+    def de_serialize(self, str):
         self.value=int(str)
 
     def serialize(self):
@@ -102,24 +139,26 @@ class StringHolder(ValueHolder):
     def serialize(self):
         return self.value
 
+
 @ValueHolder.register(type(None))
 class NoneHolder(ValueHolder):
     def __init__(self):
         self.value = None
 
-    def de_serialize(self,string):
-        self.value=None
+    def de_serialize(self, string):
+        self.value = None
 
     def serialize(self):
         return self.value
+
 
 @ValueHolder.register(object)
 class ObjectHolder(ValueHolder):
     def __init__(self):
         self.value = None
 
-    def de_serialize(self,string):
-        self.value=None
+    def de_serialize(self, string):
+        self.value = json.load(string)
 
     def serialize(self):
-        return self.value
+        return json.dumps(self.value)

@@ -1,41 +1,42 @@
 class Context(object):
-    currentContext={}
+    currentContext = {}
+
     def __init__(self):
-        self.currentContext={}
+        self.currentContext = {}
         self.ref=self.currentContext
 
-    def get(self,key):
+    def get(self, key):
         return self.currentContext[key]
 
-    def pour(self,map):
-        Context.pour_to(self.ref,map)
-        Context.pour_to(self.currentContext,map)
+    def pour(self, data):
+        Context.pour_to(self.ref, data)
+        Context.pour_to(self.currentContext, data)
 
     @staticmethod
-    def pour_to_map(mapTarget,mapSource):
-        for key in mapSource:
-            if key in mapTarget:
-                Context.pour_to(mapTarget[key],mapSource[key])
+    def __pour_to_map(map_target, map_source):
+        for key in map_source:
+            if key in map_target:
+                Context.pour_to(map_target[key],map_source[key])
             else:
-                mapTarget[key]=mapSource[key]
+                map_target[key]=map_source[key]
 
     @staticmethod
-    def pour_to_list(listTarget,listSource):
-        if len(listTarget)>len(listSource):
-            for i in range(len(listSource)):
-                Context.pour_to(listTarget[i],listSource[i])
+    def __pour_to_list(list_target, list_source):
+        if len(list_target)>len(list_source):
+            for i in range(len(list_source)):
+                Context.pour_to(list_target[i],list_source[i])
         else:
-            for i in range(len(listTarget)):
-                Context.pour_to(listTarget[i],listSource[i])
+            for i in range(len(list_target)):
+                Context.pour_to(list_target[i],list_source[i])
 
-            for i in range(len(listTarget),len(listSource)):
-                listTarget.append(listSource[i])
+            for i in range(len(list_target),len(list_source)):
+                list_target.append(list_source[i])
 
     @staticmethod
-    def pour_to(target,source):
+    def pour_to(target, source):
         if isinstance(target,dict) and isinstance(source,dict):
-            Context.pour_to_map(target,source)
+            Context.__pour_to_map(target,source)
         elif isinstance(target,list) and isinstance(source,list):
-            Context.pour_to_list(target,source)
+            Context.__pour_to_list(target,source)
 
 

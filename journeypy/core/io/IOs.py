@@ -20,8 +20,6 @@ class Reader(object):
         pass
 
 class Writer(object):
-    # def __int__(self):
-    #     pass
 
     def write_data(self,obj):
         pass
@@ -45,21 +43,14 @@ class Writer(object):
         pass
 
 class IO(object):
-    def __init__(self, writer=Writer(), reader=Reader()):
+    def __init__(self, writer, reader):
         self.writer = writer
         self.reader = reader
         self.writer.set_reader(self.reader)
         self.reader.set_writer(self.writer)
 
-# def hello():
-    # print("hello")
 
 class ConsoleWriter(Writer):
-    # out = sys.stdout
-
-    # def __int__(self):
-    #     # self.out = sys.stdout
-    #     # hello()
 
     def write_data(self,obj):
         if(isinstance(obj,ValueHolder)):
@@ -85,14 +76,14 @@ class ConsoleWriter(Writer):
 
 
 class ConsoleReader(Reader):
-    sin=sys.stdin;
-    def read(self,type):
-        obj=type()
+    sin = sys.stdin
+    def read(self,cls):
+        obj=cls()
         obj.de_serialize(self.sin.readline())
         return obj
 
     def get_writer(self):
-        return  self.writer
+        return self.writer
 
     def set_writer(self,writer):
         self.writer=writer
@@ -108,7 +99,7 @@ class ConsoleReader(Reader):
 
 
 class ConsoleIO(IO):
-    def __int__(self, writer=ConsoleWriter(), reader=ConsoleReader()):
+    def __init__(self, writer=ConsoleWriter(), reader=ConsoleReader()):
         super(ConsoleIO,self).__init__(writer,reader)
 
 class MockOut(object):
