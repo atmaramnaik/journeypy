@@ -1,9 +1,9 @@
 .DS_Store
 .idea/
 .tox/
-journey.egg-info/
 .pytest_cache/
 __pycache__/
 build/
 dist/
 *.pyc
+journeypy.egg-info/
