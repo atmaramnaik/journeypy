@@ -1,6 +1,5 @@
-from journeypy.core.io.IOs import ConsoleWriter, ConsoleIO, MockIn
-from journeypy.core.io.IOs import mock_console_io
-from journeypy.core.data.value.Values import StringHolder, IntegerHolder
+from journeypy.core.io import ConsoleWriter, ConsoleIO, MockIn, mock_console_io
+from journeypy.core.data.value import IntegerHolder, StringHolder
 
 
 def test_console_writer_write_string_method(capsys):

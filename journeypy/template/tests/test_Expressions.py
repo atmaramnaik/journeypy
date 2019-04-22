@@ -1,5 +1,5 @@
-from journeypy.core.data.runtime.Context import Context
-from journeypy.template.Expressions import *
+from journeypy.core.data.runtime import Context
+from journeypy.template import VariableExpression, FunctionExpression
 import functools
 
 

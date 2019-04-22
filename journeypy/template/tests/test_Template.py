@@ -1,6 +1,6 @@
-from journeypy.template.Template import Template
-from journeypy.core.data.runtime.Context import Context
-from journeypy.core.io.IOs import mock_console_io
+from journeypy.template import Template
+from journeypy.core.data.runtime import Context
+from journeypy.core.io import mock_console_io
 
 
 def test_process_method():

@@ -1,4 +1,5 @@
-from journeypy.core.data.value.Values import *
+from journeypy.core.data.value import ValueHolderEntry, ValueHolder, IntegerHolder, StringHolder, NoneHolder, \
+    ObjectHolder
 
 
 def test_value_holder_entry_eq():

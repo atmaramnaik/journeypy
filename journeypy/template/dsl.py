@@ -1,5 +1,5 @@
-from journeypy.template.text.Templates import *
-from journeypy.template.Expressions import *
+from journeypy.template import VariableExpression, FunctionExpression
+from journeypy.template.text import Text, StaticStringBlock, ExpressionBlock
 
 
 def text(*argv):

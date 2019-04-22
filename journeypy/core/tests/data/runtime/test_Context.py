@@ -1,4 +1,4 @@
-from journeypy.core.data.runtime.Context import Context
+from journeypy.core.data.runtime import Context
 
 
 def test_pour_to_list_when_source_is_equal_to_target():
