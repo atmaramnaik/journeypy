@@ -3,42 +3,44 @@ from journeypy.core.data.variable.Variables import MapVariable
 
 
 class Text(Template):
-    blocks=[]
-    def process(self, context,io):
-        mapVariable=self.get_required_variables(context,io)
-        context.pour(mapVariable.read(io))
+    blocks = []
+
+    def process(self, context, io):
+        map_variable=self.get_required_variables(context, io)
+        context.pour(map_variable.read(io))
         return self.fill(context)
 
     def get_required_variables_blind(self, context):
-        mapVariable=MapVariable({})
-        return mapVariable
+        map_variable=MapVariable({})
+        return map_variable
 
-    def fillReturnValue(self, context):
-        finalStr=''
+    def fill_return_value(self, context):
+        final_str = ''
         for block in self.blocks:
-            finalStr+=block.fill(context)
-        return finalStr
+            final_str += block.fill(context)
+        return final_str
 
     def get_required_variables(self, context, io):
-        mapVariable = MapVariable({})
+        map_variable = MapVariable({})
         for block in self.blocks:
-            mapVariable.map.update(block.get_required_variables(context).map)
+            map_variable.variable_map.update(block.get_required_variables(context).variable_map)
 
-        return mapVariable
+        return map_variable
 
 
 class Block(object):
-    def fill(self,context):
+    def fill(self, context):
         pass
 
-    def get_required_variables(self,context):
+    def get_required_variables(self, context):
         pass
 
-    def get_required_variables(self,context,io):
-        return self.getRequiredVariables(self,context)
+    def get_required_variables(self, context, io):
+        return self.getRequiredVariables(self, context)
+
 
 class StaticStringBlock(Block):
-    value=None
+    value = None
 
     def __init__(self,value):
         self.value=value
@@ -49,13 +51,14 @@ class StaticStringBlock(Block):
     def get_required_variables(self,context):
         return MapVariable({})
 
-class ExpressionBlock(Block):
-    def __init__(self,expression):
-        self.expression=expression
 
-    def fill(self,context):
+class ExpressionBlock(Block):
+    def __init__(self, expression):
+        self.expression = expression
+
+    def fill(self, context):
         return self.expression.fill(context).serialize()
 
-    def get_required_variables(self,context):
+    def get_required_variables(self, context):
         return self.expression.get_required_variables(context)
 

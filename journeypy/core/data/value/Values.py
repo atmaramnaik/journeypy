@@ -1,4 +1,6 @@
 import json
+
+
 class Serializable(object):
     def de_serialize(self,str):
         pass
@@ -73,18 +75,18 @@ class ValueHolder(Serializable):
 
     @staticmethod
     def get_new_value_holder_for(data):
-        valueholder=ValueHolder.get_appropriate_value_holder(type(data))()
-        valueholder.value=data
-        return valueholder
+        value_holder = ValueHolder.get_appropriate_value_holder(type(data))()
+        value_holder.value = data
+        return value_holder
 
     @classmethod
-    def register(cls,type):
-        def real_decorator(scls):
-            ValueHolder.__valueHolderList.append(ValueHolderEntry(type, scls))
+    def register(cls, data_type):
+        def class_decorator(data_class):
+            ValueHolder.__valueHolderList.append(ValueHolderEntry(data_type, data_class))
             ValueHolder.__valueHolderList.sort()
-            return scls
+            return data_class
 
-        return real_decorator
+        return class_decorator
 
 
 @ValueHolder.register(int)

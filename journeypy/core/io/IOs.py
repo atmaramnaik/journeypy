@@ -1,13 +1,15 @@
 import sys
-from journeypy.core.data.value.Values import ValueHolder,StringHolder
+from journeypy.core.data.value.Values import ValueHolder, StringHolder
+
+
 class Reader(object):
-    def read(self,type):
+    def read(self, data_type):
         pass
 
     def get_writer(self):
         pass
 
-    def set_writer(self,writer):
+    def set_writer(self, writer):
         pass
 
     def start_reading(self):
@@ -19,18 +21,19 @@ class Reader(object):
     def is_reading(self):
         pass
 
+
 class Writer(object):
 
-    def write_data(self,obj):
+    def write_data(self, obj):
         pass
 
-    def write_string(self,str):
+    def write_string(self, string):
         pass
 
     def get_reader(self):
         pass
 
-    def set_reader(self,reader):
+    def set_reader(self, reader):
         pass
 
     def start_writing(self):
@@ -41,6 +44,7 @@ class Writer(object):
 
     def is_writing(self):
         pass
+
 
 class IO(object):
     def __init__(self, writer, reader):
@@ -53,17 +57,17 @@ class IO(object):
 class ConsoleWriter(Writer):
 
     def write_data(self,obj):
-        if(isinstance(obj,ValueHolder)):
+        if isinstance(obj, ValueHolder):
             sys.stdout.write(obj.serialize())
 
-    def write_string(self,string):
+    def write_string(self, string):
         sys.stdout.write(string)
 
     def get_reader(self):
         return self.reader
 
-    def set_reader(self,reader):
-        self.reader=reader
+    def set_reader(self, reader):
+        self.reader = reader
 
     def start_writing(self):
         pass
@@ -77,8 +81,9 @@ class ConsoleWriter(Writer):
 
 class ConsoleReader(Reader):
     sin = sys.stdin
-    def read(self,cls):
-        obj=cls()
+
+    def read(self, data_value_holder_type):
+        obj = data_value_holder_type()
         obj.de_serialize(self.sin.readline())
         return obj
 
@@ -86,7 +91,7 @@ class ConsoleReader(Reader):
         return self.writer
 
     def set_writer(self,writer):
-        self.writer=writer
+        self.writer = writer
 
     def start_reading(self):
         pass
@@ -100,38 +105,22 @@ class ConsoleReader(Reader):
 
 class ConsoleIO(IO):
     def __init__(self, writer=ConsoleWriter(), reader=ConsoleReader()):
-        super(ConsoleIO,self).__init__(writer,reader)
+        super(ConsoleIO, self).__init__(writer, reader)
 
-class MockOut(object):
-    def __init__(self,strHolder):
-        self.strHolder=strHolder
-
-    def write(self,str):
-        self.strHolder.value+=str
 
 class MockIn(object):
-    str=''
+    str = ''
+
     def __init__(self,str):
-        self.str=str
+        self.str = str
+
     def readline(self):
         return self.str
 
-class MockIO(IO):
-   def __init__(self,input='',output=None):
-       if output==None:
-           output=StringHolder()
-           output.value=""
-       min=MockIn(input)
-       mout=MockOut(output)
-       writer=ConsoleWriter()
-       writer.out=mout
-       reader=ConsoleReader()
-       reader.sin=min
-       super(MockIO, self).__init__(writer,reader)
 
-def mock_consoleio(input=''):
-    min = MockIn(input)
+def mock_console_io(input_data=''):
+    mock_in = MockIn(input_data)
     writer = ConsoleWriter()
     reader = ConsoleReader()
-    reader.sin = min
+    reader.sin = mock_in
     return ConsoleIO(writer,reader)
