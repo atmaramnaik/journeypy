@@ -110,13 +110,15 @@ class ConsoleIO(IO):
 
 
 class MockIn(object):
-    str = ''
+    strings = []
 
-    def __init__(self,str):
-        self.str = str
+    def __init__(self, string):
+        self.strings = string.split("\n")
 
     def readline(self):
-        return self.str
+        ret_str = self.strings[0]
+        self.strings.pop(0)
+        return ret_str
 
 
 def mock_console_io(input_data=''):

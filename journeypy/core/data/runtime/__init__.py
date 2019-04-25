@@ -5,6 +5,23 @@ class Context(object):
         self.currentContext = {}
         self.ref=self.currentContext
 
+    def __new_from_this(self):
+        context = Context()
+        context.currentContext.update(self.currentContext)
+        return context
+
+    def get_from_list_item(self, variable, index):
+        member = self.get(variable)
+        item = member[index]
+        new_context = self.__new_from_this()
+        if type(item) == dict:
+            new_context.ref = item
+            new_context.currentContext.update(item)
+        else:
+            map_item = {'&this': item}
+            new_context.currentContext.update(map_item)
+        return new_context
+
     def get(self, key):
         return self.currentContext[key]
 

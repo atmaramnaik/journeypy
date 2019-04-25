@@ -19,7 +19,7 @@ class Template(object):
 
     def get_required_variables(self, context, io):
         if io is None:
-            return self.get_required_variables_blind(self, context)
+            return self.get_required_variables_blind(context)
         return MapVariable({})
 
 
@@ -74,6 +74,7 @@ class FunctionExpression(Expression):
 
     def with_argument(self, expression):
         self.expressions.append(expression)
+        return self
 
     def fill(self, context):
         lst_vh = []
@@ -87,10 +88,7 @@ class FunctionExpression(Expression):
 
     def get_required_variables(self, context):
         map_variable = MapVariable({})
-
-        if self.name not in context.currentContext:
-            value_holder_type = ValueHolder.get_appropriate_value_holder()
-            value_holder_variable = ValueHolderVariable(value_holder_type)
-            map_variable.variable_map[self.name] = value_holder_variable
+        for expression in self.expressions:
+            map_variable.variable_map.update(expression.get_required_variables(context).variable_map)
 
         return map_variable

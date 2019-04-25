@@ -48,7 +48,7 @@ class StaticStringBlock(Block):
     def fill(self,context):
         return self.value
 
-    def get_required_variables(self,context):
+    def get_required_variables(self, context):
         return MapVariable({})
 
 

@@ -1,4 +1,4 @@
-from journeypy.template import VariableExpression, FunctionExpression
+from journeypy.template import VariableExpression, FunctionExpression, ConstantExpression
 from journeypy.template.text import Text, StaticStringBlock, ExpressionBlock
 
 
@@ -22,3 +22,7 @@ def var(name):
 
 def fun(operation, *expressions):
     return FunctionExpression(operation, expressions)
+
+
+def const(value):
+    return ConstantExpression(value)
