@@ -33,7 +33,8 @@ class Context(object):
     def __pour_to_map(map_target, map_source):
         for key in map_source:
             if key in map_target:
-                Context.pour_to(map_target[key],map_source[key])
+                if not Context.pour_to(map_target[key],map_source[key]):
+                    map_target[key]=map_source[key]
             else:
                 map_target[key]=map_source[key]
 
@@ -53,5 +54,11 @@ class Context(object):
     def pour_to(target, source):
         if isinstance(target,dict) and isinstance(source,dict):
             Context.__pour_to_map(target,source)
+            return True
         elif isinstance(target,list) and isinstance(source,list):
             Context.__pour_to_list(target,source)
+            return True
+        else:
+            return False
+
+

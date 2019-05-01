@@ -27,3 +27,10 @@ def test_pour_to_list_when_source_is_greater_than_target():
     obj2 = {"name": "yogesh"}
     assert obj1 in l1
     assert obj2 in l1
+
+def test_pour_to_map():
+    o1 = {"name": "Anjali","Place": "delhi"}
+    o2 = {"Place": ["pune","mumbai"]}
+    Context.pour_to(o1, o2)
+    obj1 = {"name": "Anjali", "Place": ["pune","mumbai"]}
+    assert obj1 == o1
