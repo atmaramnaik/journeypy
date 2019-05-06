@@ -22,6 +22,7 @@ setup(
     install_requires=[
         'future',
         'six',
+        'requests'
     ],
     entry_points={
         "console_scripts": [

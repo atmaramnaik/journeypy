@@ -1,1 +1,1 @@
-# journey-py
+# journeypy
